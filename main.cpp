@@ -8,7 +8,7 @@ using namespace std;
 
 
 static Mat gradientX(Mat & mat, float spacing) {
-    Mat grad = Mat::zeros(mat.cols,mat.rows,CV_32F);
+    Mat grad = Mat::zeros(mat.rows,mat.cols,CV_32F);
 
     /*  last row */
     int maxCols = mat.cols;
@@ -35,7 +35,7 @@ static Mat gradientX(Mat & mat, float spacing) {
 /// @param[in] mat Specify input matrix.
 /// @param[in] spacing Specify input space.
 static Mat gradientY(Mat & mat, float spacing) {
-    Mat grad = Mat::zeros(mat.cols,mat.rows,CV_32F);
+    Mat grad = Mat::zeros(mat.rows, mat.cols, CV_32F);
 
     /*  last row */
     const int maxCols = mat.cols;
@@ -44,10 +44,12 @@ static Mat gradientY(Mat & mat, float spacing) {
     /* get gradients in each border */
     /* first row */
     Mat row = (-mat.row(0) + mat.row(1))/(float)spacing;
-    row.copyTo(grad(Rect(0,0,maxCols,1)));
+    Rect rect(0, 0, maxCols, 1);
+    Rect rect2(0, maxRows-1, maxCols, 1);
 
+    row.copyTo(grad(rect));
     row = (-mat.row(maxRows-2) + mat.row(maxRows-1))/(float)spacing;
-    row.copyTo(grad(Rect(0,maxRows-1,maxCols,1)));
+    row.copyTo(grad(rect2));
 
     /* centered elements */
     Mat centeredMat = mat(Rect(0,0,maxCols,maxRows-2));
@@ -55,20 +57,17 @@ static Mat gradientY(Mat & mat, float spacing) {
     Mat resultCenteredMat = (-centeredMat + offsetMat)/(((float)spacing)*2.0);
 
     resultCenteredMat.copyTo(grad(Rect(0,1,maxCols, maxRows-2)));
+
     return grad;
 }
-
-
-
-
 
 
 
 int main(int argc, char** argv )
 {
 
-    Mat_<uchar> image = imread("./Images/troll.png", 0);
-    Mat_<uchar> trimap = imread("./Images/trollTrimap.bmp", 0);
+    Mat_<uchar> image = imread("../Images/troll.png", 0);
+    Mat_<uchar> trimap = imread("../Images/trollTrimap.bmp", 0);
     Mat_<uchar> foreground(trimap.size(), (uchar)0);
     Mat_<uchar> background(trimap.size(), (uchar)0);
     Mat_<uchar> unknown(trimap.size(), (uchar)0);
@@ -77,6 +76,7 @@ int main(int argc, char** argv )
 
     int h = trimap.rows;
     int w = trimap.cols;
+
     for (int y = 0; y < h; ++y) {
         for (int x = 0; x < w; ++x) {
             if (trimap(y, x) == 0)
@@ -88,8 +88,13 @@ int main(int argc, char** argv )
             fg_mask = (unknown(y, x) + background(y, x)) * 255;
         }
     }
-    int h1 = image.rows;
-    int c1 = image.cols;
+
+    // Refactoring code
+//    bitwise_or(foreground, background, unknown);
+//    bitwise_xor(unknown, Mat::ones(h, w, CV_8U), unknown);
+//
+//    bg_mask = unknown + foreground * 255;
+//    fg_mask = unknown + background * 255;
 
     Mat_<uchar> fg_image(image.size(), (uchar)0);
     Mat_<uchar> bg_image(image.size(), (uchar)0);
@@ -107,6 +112,8 @@ int main(int argc, char** argv )
     Mat_<uchar> approx_fg(image.size(), (uchar)0);
     Mat_<uchar> approx_bg(image.size(), (uchar)0);
 
+
+    cout<<image.size() << "Image size" << endl;
     inpaint(bg_image, bg_mask, approx_bg, 3, INPAINT_TELEA);
     inpaint(fg_image, fg_mask, approx_fg, 3, INPAINT_TELEA);
 
@@ -118,21 +125,20 @@ int main(int argc, char** argv )
         }
     }
 
-
-    // approx_diff = approx_fg - approx_bg
-    // approx_diff = scipy.ndimage.filters.gaussian_filter(approx_diff, 0.9)
-    Mat_<uchar> approx_diff(image.size(), (uchar)0);
-    for(int i=0 ; i < h; i++){
-        for (int j=0 ;j < w; j++){
-            approx_diff(i, j) = approx_fg(i, j) - approx_bg(i, j);
-        }
-    }
-
-    //GaussianBlur(approx_diff, approx_diff, 3 ,0.9);
+    Mat fg_img;
+    approx_fg.convertTo(fg_img, CV_32FC1);
+    Mat bg_img;
+    approx_bg.convertTo(bg_img, CV_32FC1);
+    Mat approx_diff = fg_img - bg_img;
 
 
-    Mat dy = gradientY(image, 1.0);
-    Mat dx = gradientX(image, 1.0);
+    Size sz(3,3);
+
+    GaussianBlur(approx_diff, approx_diff, sz ,0.9);
+    Mat image2 = imread("../Images/troll.png", 0);
+
+    Mat dy = gradientY(image2, 1.0);
+    Mat dx = gradientX(image2, 1.0);
     cout << dy.rows << dy.cols << endl;
     //cout<<dy.at<float>(0,0) << endl;
     //cout<<dx.at<float>(0.0) << endl;
@@ -146,14 +152,42 @@ int main(int argc, char** argv )
     Mat d2y = gradientY(diff_dy, 1.0);
     Mat d2x = gradientX(diff_dx, 1.0);
 
+    cout<<dy.at<float>(0,0) << endl;
+    cout<<dx.at<float>(0,0) << endl;
 
-    if ( !image.data )
-    {
-        printf("No image data \n");
-        return -1;
+    Mat b = d2y + d2x;
+
+
+
+// Alpha calculation
+    Mat alphaest;
+    alphaestimate.convertTo(alphaest, CV_32F);
+    Mat alphaNew;
+    alphaest.copyTo(alphaNew);
+    Mat alphaOld = Mat::zeros(alphaNew.rows, alphaNew.cols, CV_32F);
+    float threshold = 0.1;
+    int n = 1;
+    Mat diff_result;
+    absdiff(alphaNew, alphaOld, diff_result);
+    while (n<100 && sum(diff_result)[0] > threshold) {
+        alphaNew.copyTo(alphaOld);
+        for(int i=1; i<h-1; i++) {
+            for(int j=1; j<w-1; j++) {
+                if(unknown(i,j)) {
+                    alphaNew.at<float>(i,j) = 1/4  * (alphaNew.at<float>(i-1 ,j) + alphaNew.at<float>(i,j-1)
+                            + alphaOld.at<float>(i, j+1) + alphaOld.at<float>(i+1,j) - b.at<float>(i,j));
+                }
+            }
+        }
+        n = n+1;
     }
+    Mat alpha = min(max(alphaNew,0),1);
+    cout << "Completed Alpha estimate" << endl;
+
+
+
     namedWindow("Display Image", WINDOW_AUTOSIZE );
-    imshow("Display Image", image);
+    imshow("Display Image", trimap);
 
     waitKey(0);
     destroyAllWindows();
