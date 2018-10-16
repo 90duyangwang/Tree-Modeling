@@ -68,26 +68,9 @@ int main(int argc, char** argv )
 
     Mat image = imread("../Images/troll.png", 0);
     Mat trimap = imread("../Images/trollTrimap.bmp", 0);
-//    Mat_<uchar> foreground(trimap.size(), (uchar)0);
-//    Mat_<uchar> background(trimap.size(), (uchar)0);
-//    Mat_<uchar> unknown(trimap.size(), (uchar)0);
-//    Mat_<uchar> fg_mask(trimap.size(), (uchar)0);
-//    Mat_<uchar> bg_mask(trimap.size(), (uchar)0);
 
     int h = trimap.rows;
     int w = trimap.cols;
-//
-//    for (int y = 0; y < h; ++y) {
-//        for (int x = 0; x < w; ++x) {
-//            if (trimap(y, x) == 0)
-//                background(y, x) = 1;
-//            else if (trimap(y, x) == 255)
-//                foreground(y, x) = 1;
-//            unknown(y, x) = 1^(foreground(y, x) || background(y, x));
-//            bg_mask = (unknown(y, x) + foreground(y, x)) * 255;
-//            fg_mask = (unknown(y, x) + background(y, x)) * 255;
-//        }
-//    }
 
     Mat foreground = Mat::ones(trimap.size(), CV_8U);
     Mat background = Mat::zeros(trimap.size(), CV_8U);
@@ -108,6 +91,13 @@ int main(int argc, char** argv )
 
     Mat fg_image = image.mul(foreground);
     Mat bg_image = image.mul(background);
+
+    namedWindow("Display Image", WINDOW_AUTOSIZE );
+    imshow("Display Image", fg_image);
+    imshow("Image Background", bg_image);
+
+    waitKey(0);
+
     Mat alphaestimate = foreground + 0.5 * unknown;
     Mat approx_bg;
     Mat approx_fg;
