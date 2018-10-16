@@ -66,64 +66,71 @@ static Mat gradientY(Mat & mat, float spacing) {
 int main(int argc, char** argv )
 {
 
-    Mat_<uchar> image = imread("../Images/troll.png", 0);
-    Mat_<uchar> trimap = imread("../Images/trollTrimap.bmp", 0);
-    Mat_<uchar> foreground(trimap.size(), (uchar)0);
-    Mat_<uchar> background(trimap.size(), (uchar)0);
-    Mat_<uchar> unknown(trimap.size(), (uchar)0);
-    Mat_<uchar> fg_mask(trimap.size(), (uchar)0);
-    Mat_<uchar> bg_mask(trimap.size(), (uchar)0);
+    Mat image = imread("../Images/troll.png", 0);
+    Mat trimap = imread("../Images/trollTrimap.bmp", 0);
+//    Mat_<uchar> foreground(trimap.size(), (uchar)0);
+//    Mat_<uchar> background(trimap.size(), (uchar)0);
+//    Mat_<uchar> unknown(trimap.size(), (uchar)0);
+//    Mat_<uchar> fg_mask(trimap.size(), (uchar)0);
+//    Mat_<uchar> bg_mask(trimap.size(), (uchar)0);
 
     int h = trimap.rows;
     int w = trimap.cols;
+//
+//    for (int y = 0; y < h; ++y) {
+//        for (int x = 0; x < w; ++x) {
+//            if (trimap(y, x) == 0)
+//                background(y, x) = 1;
+//            else if (trimap(y, x) == 255)
+//                foreground(y, x) = 1;
+//            unknown(y, x) = 1^(foreground(y, x) || background(y, x));
+//            bg_mask = (unknown(y, x) + foreground(y, x)) * 255;
+//            fg_mask = (unknown(y, x) + background(y, x)) * 255;
+//        }
+//    }
 
-    for (int y = 0; y < h; ++y) {
-        for (int x = 0; x < w; ++x) {
-            if (trimap(y, x) == 0)
-                background(y, x) = 1;
-            else if (trimap(y, x) == 255)
-                foreground(y, x) = 1;
-            unknown(y, x) = 1^(foreground(y, x) || background(y, x));
-            bg_mask = (unknown(y, x) + foreground(y, x)) * 255;
-            fg_mask = (unknown(y, x) + background(y, x)) * 255;
-        }
-    }
+    Mat foreground = Mat::ones(trimap.size(), CV_8U);
+    Mat background = Mat::zeros(trimap.size(), CV_8U);
+    Mat unknown(trimap.size(), CV_8U);
+
+    Mat fg_mask(trimap.size(), CV_8U);
+    Mat bg_mask(trimap.size(), CV_8U);
+
+    bitwise_xor(background, trimap, background);
+    bitwise_and(foreground, trimap, foreground);
 
     // Refactoring code
-//    bitwise_or(foreground, background, unknown);
-//    bitwise_xor(unknown, Mat::ones(h, w, CV_8U), unknown);
-//
-//    bg_mask = unknown + foreground * 255;
-//    fg_mask = unknown + background * 255;
+    bitwise_or(foreground, background, unknown);
+    bitwise_xor(unknown, Mat::ones(h, w, CV_8U), unknown);
 
-    Mat_<uchar> fg_image(image.size(), (uchar)0);
-    Mat_<uchar> bg_image(image.size(), (uchar)0);
-    Mat_<uchar> alphaestimate(image.size(), (uchar)0);
+    bg_mask = (unknown + foreground) * 255;
+    fg_mask = (unknown + background) * 255;
 
-    for(int i = 0; i < h; i++){
-        for(int j = 0; j < w; j++){
-            fg_image(i,j) = image(i,j) * foreground(i, j);
-            bg_image(i,j) = image(i,j) * background(i, j);
-            alphaestimate(i, j) = foreground(i, j) + 0.5 * unknown(i, j);
-        }
-    }
-
-
-    Mat_<uchar> approx_fg(image.size(), (uchar)0);
-    Mat_<uchar> approx_bg(image.size(), (uchar)0);
-
+    Mat fg_image = image.mul(foreground);
+    Mat bg_image = image.mul(background);
+    Mat alphaestimate = foreground + 0.5 * unknown;
+    Mat approx_bg;
+    Mat approx_fg;
 
     cout<<image.size() << "Image size" << endl;
     inpaint(bg_image, bg_mask, approx_bg, 3, INPAINT_TELEA);
     inpaint(fg_image, fg_mask, approx_fg, 3, INPAINT_TELEA);
 
-    for(int i = 0; i < h; i++){
-        for(int j = 0; j < w; j++){
-            approx_fg(i,j) = approx_fg(i, j) * (background(i, j) == 0 ? 1:0);
-            approx_bg(i,j) = approx_bg(i, j) * (foreground(i, j) == 0 ? 1:0);
 
-        }
-    }
+    namedWindow("Display Image", WINDOW_AUTOSIZE );
+
+    imshow("Display Image", approx_fg);
+    waitKey(0);
+    imshow("Display Image", approx_bg);
+    waitKey(0);
+
+    Mat backnot;
+    bitwise_not(background, backnot);
+    Mat forenot;
+    bitwise_not(foreground, forenot);
+
+    approx_fg = approx_fg.mul(backnot);
+    approx_bg = approx_bg.mul(forenot);
 
     Mat fg_img;
     approx_fg.convertTo(fg_img, CV_32FC1);
@@ -139,9 +146,6 @@ int main(int argc, char** argv )
 
     Mat dy = gradientY(image2, 1.0);
     Mat dx = gradientX(image2, 1.0);
-    cout << dy.rows << dy.cols << endl;
-    //cout<<dy.at<float>(0,0) << endl;
-    //cout<<dx.at<float>(0.0) << endl;
 
     Mat diff_dy;
     Mat diff_dx;
@@ -151,10 +155,6 @@ int main(int argc, char** argv )
 
     Mat d2y = gradientY(diff_dy, 1.0);
     Mat d2x = gradientX(diff_dx, 1.0);
-
-    cout<<dy.at<float>(0,0) << endl;
-    cout<<dx.at<float>(0,0) << endl;
-
     Mat b = d2y + d2x;
 
 
@@ -169,12 +169,12 @@ int main(int argc, char** argv )
     int n = 1;
     Mat diff_result;
     absdiff(alphaNew, alphaOld, diff_result);
-    while (n<100 && sum(diff_result)[0] > threshold) {
+    while (n<50 && sum(diff_result)[0] > threshold) {
         alphaNew.copyTo(alphaOld);
         for(int i=1; i<h-1; i++) {
             for(int j=1; j<w-1; j++) {
-                if(unknown(i,j)) {
-                    alphaNew.at<float>(i,j) = 1/4  * (alphaNew.at<float>(i-1 ,j) + alphaNew.at<float>(i,j-1)
+                if(unknown.at<unsigned char>(i,j) != 0) {
+                    alphaNew.at<float>(i,j) = (1/4.0)  * (alphaNew.at<float>(i-1 ,j) + alphaNew.at<float>(i,j-1)
                             + alphaOld.at<float>(i, j+1) + alphaOld.at<float>(i+1,j) - b.at<float>(i,j));
                 }
             }
@@ -184,10 +184,8 @@ int main(int argc, char** argv )
     Mat alpha = min(max(alphaNew,0),1);
     cout << "Completed Alpha estimate" << endl;
 
-
-
     namedWindow("Display Image", WINDOW_AUTOSIZE );
-    imshow("Display Image", trimap);
+    imshow("Display Image", alpha);
 
     waitKey(0);
     destroyAllWindows();
