@@ -7,22 +7,18 @@ using namespace cv;
 using namespace std;
 
 
-static Mat gradientX(Mat & mat, float spacing) {
+Mat gradientX(Mat & mat, float spacing) {
     Mat grad = Mat::zeros(mat.rows,mat.cols,CV_32F);
 
-    /*  last row */
     int maxCols = mat.cols;
     int maxRows = mat.rows;
 
-    /* get gradients in each border */
-    /* first row */
     Mat col = (-mat.col(0) + mat.col(1))/(float)spacing;
     col.copyTo(grad(Rect(0,0,1,maxRows)));
 
     col = (-mat.col(maxCols-2) + mat.col(maxCols-1))/(float)spacing;
     col.copyTo(grad(Rect(maxCols-1,0,1,maxRows)));
 
-    /* centered elements */
     Mat centeredMat = mat(Rect(0,0,maxCols-2,maxRows));
     Mat offsetMat = mat(Rect(2,0,maxCols-2,maxRows));
     Mat resultCenteredMat = (-centeredMat + offsetMat)/(((float)spacing)*2.0);
@@ -31,18 +27,13 @@ static Mat gradientX(Mat & mat, float spacing) {
     return grad;
 }
 
-/// Internal method to get numerical gradient for y components.
-/// @param[in] mat Specify input matrix.
-/// @param[in] spacing Specify input space.
-static Mat gradientY(Mat & mat, float spacing) {
+Mat gradientY(Mat & mat, float spacing) {
     Mat grad = Mat::zeros(mat.rows, mat.cols, CV_32F);
+//    Mat grad = res;
 
-    /*  last row */
     const int maxCols = mat.cols;
     const int maxRows = mat.rows;
 
-    /* get gradients in each border */
-    /* first row */
     Mat row = (-mat.row(0) + mat.row(1))/(float)spacing;
     Rect rect(0, 0, maxCols, 1);
     Rect rect2(0, maxRows-1, maxCols, 1);
@@ -51,7 +42,6 @@ static Mat gradientY(Mat & mat, float spacing) {
     row = (-mat.row(maxRows-2) + mat.row(maxRows-1))/(float)spacing;
     row.copyTo(grad(rect2));
 
-    /* centered elements */
     Mat centeredMat = mat(Rect(0,0,maxCols,maxRows-2));
     Mat offsetMat = mat(Rect(0,2,maxCols,maxRows-2));
     Mat resultCenteredMat = (-centeredMat + offsetMat)/(((float)spacing)*2.0);
@@ -66,88 +56,81 @@ static Mat gradientY(Mat & mat, float spacing) {
 int main(int argc, char** argv )
 {
 
-    Mat image = imread("../Images/troll.png", 0);
-    Mat trimap = imread("../Images/trollTrimap.bmp", 0);
+    Mat image = imread("../Images/troll.png",0);
+    Mat trimap = imread("../Images/trollTrimap.bmp",0);
 
     int h = trimap.rows;
     int w = trimap.cols;
 
-    Mat foreground = Mat::ones(trimap.size(), CV_8U);
-    Mat background = Mat::zeros(trimap.size(), CV_8U);
-    Mat unknown(trimap.size(), CV_8U);
+    Mat foreground = (trimap == 255);
+    Mat background = (trimap == 0);
+    Mat unknown = (trimap == 128);
 
-    Mat fg_mask(trimap.size(), CV_8U);
-    Mat bg_mask(trimap.size(), CV_8U);
 
-    bitwise_xor(background, trimap, background);
-    bitwise_and(foreground, trimap, foreground);
+    Mat bg_mask;
+    bitwise_or(unknown, foreground, bg_mask);
+    Mat fg_mask;
+    bitwise_or(unknown, background, fg_mask);
 
-    // Refactoring code
-    bitwise_or(foreground, background, unknown);
-    bitwise_xor(unknown, Mat::ones(h, w, CV_8U), unknown);
 
-    bg_mask = (unknown + foreground) * 255;
-    fg_mask = (unknown + background) * 255;
-
-    Mat fg_image = image.mul(foreground);
-    Mat bg_image = image.mul(background);
-
-    namedWindow("Display Image", WINDOW_AUTOSIZE );
-    imshow("Display Image", fg_image);
-    imshow("Image Background", bg_image);
-
-    waitKey(0);
+    Mat fg_image;
+    Mat bg_image;
+    image.copyTo(fg_image, foreground);
+    image.copyTo(bg_image, background);
 
     Mat alphaestimate = foreground + 0.5 * unknown;
     Mat approx_bg;
     Mat approx_fg;
 
-    cout<<image.size() << "Image size" << endl;
     inpaint(bg_image, bg_mask, approx_bg, 3, INPAINT_TELEA);
     inpaint(fg_image, fg_mask, approx_fg, 3, INPAINT_TELEA);
-
-
-    namedWindow("Display Image", WINDOW_AUTOSIZE );
-
-    imshow("Display Image", approx_fg);
-    waitKey(0);
-    imshow("Display Image", approx_bg);
-    waitKey(0);
 
     Mat backnot;
     bitwise_not(background, backnot);
     Mat forenot;
     bitwise_not(foreground, forenot);
 
-    approx_fg = approx_fg.mul(backnot);
-    approx_bg = approx_bg.mul(forenot);
 
-    Mat fg_img;
-    approx_fg.convertTo(fg_img, CV_32FC1);
-    Mat bg_img;
-    approx_bg.convertTo(bg_img, CV_32FC1);
-    Mat approx_diff = fg_img - bg_img;
+    Mat approx_fg2, approx_bg2;
 
+    approx_fg.copyTo(approx_fg2, backnot);
+    approx_bg.copyTo(approx_bg2, forenot);
 
-    Size sz(3,3);
+    Mat approx_fg3;
+    approx_fg.convertTo(approx_fg3, CV_32FC1);
+    Mat approx_bg3;
+    approx_bg.convertTo(approx_bg3, CV_32FC1);
 
-    GaussianBlur(approx_diff, approx_diff, sz ,0.9);
-    Mat image2 = imread("../Images/troll.png", 0);
+    //Mat approx_diff = fg_img - bg_img;
 
-    Mat dy = gradientY(image2, 1.0);
-    Mat dx = gradientX(image2, 1.0);
+    Mat approx_diff = approx_fg3 - approx_bg3;
+
+    Size sz(7,7);
+    Mat guass_res;
+    GaussianBlur(approx_diff, guass_res, sz ,0.9);
+
+    //Mat dy = Mat::zeros(image.rows, image.cols, CV_32FC1);
+
+    Mat dy = gradientY(image, 1.0);
+    Mat dx = gradientX(image, 1.0);
+
+//    cout << dy << endl;
 
     Mat diff_dy;
     Mat diff_dx;
 
-    divide(dy, approx_diff, diff_dy);
-    divide(dx, approx_diff, diff_dx);
+    divide(dy, guass_res, diff_dy);
+    divide(dx, guass_res, diff_dx);
+
+    cout << guass_res.row(0) << endl;
+    cout << dy.row(0)<<endl;
+    cout << diff_dy.row(0) << endl;
 
     Mat d2y = gradientY(diff_dy, 1.0);
     Mat d2x = gradientX(diff_dx, 1.0);
     Mat b = d2y + d2x;
 
-
+    cout << d2y.row(0) <<endl;
 
 // Alpha calculation
     Mat alphaest;
@@ -159,7 +142,7 @@ int main(int argc, char** argv )
     int n = 1;
     Mat diff_result;
     absdiff(alphaNew, alphaOld, diff_result);
-    while (n<50 && sum(diff_result)[0] > threshold) {
+    while (n<100 && sum(diff_result)[0] > threshold) {
         alphaNew.copyTo(alphaOld);
         for(int i=1; i<h-1; i++) {
             for(int j=1; j<w-1; j++) {
@@ -174,10 +157,6 @@ int main(int argc, char** argv )
     Mat alpha = min(max(alphaNew,0),1);
     cout << "Completed Alpha estimate" << endl;
 
-    namedWindow("Display Image", WINDOW_AUTOSIZE );
-    imshow("Display Image", alpha);
-
-    waitKey(0);
     destroyAllWindows();
     return 0;
 }
