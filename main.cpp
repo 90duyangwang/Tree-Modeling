@@ -51,11 +51,7 @@ Mat gradientY(Mat & mat, float spacing) {
     return grad;
 }
 
-
-
-int main(int argc, char** argv )
-{
-
+Mat alphaEstimation(string &inputImage, string &bitmapfile) {
     Mat image = imread("../Images/troll.png",0);
     Mat trimap = imread("../Images/trollTrimap.bmp",0);
 
@@ -148,7 +144,7 @@ int main(int argc, char** argv )
             for(int j=1; j<w-1; j++) {
                 if(unknown.at<unsigned char>(i,j) != 0) {
                     alphaNew.at<float>(i,j) = (1/4.0)  * (alphaNew.at<float>(i-1 ,j) + alphaNew.at<float>(i,j-1)
-                            + alphaOld.at<float>(i, j+1) + alphaOld.at<float>(i+1,j) - b.at<float>(i,j));
+                                                          + alphaOld.at<float>(i, j+1) + alphaOld.at<float>(i+1,j) - b.at<float>(i,j));
                 }
             }
         }
@@ -158,5 +154,15 @@ int main(int argc, char** argv )
     cout << "Completed Alpha estimate" << endl;
 
     destroyAllWindows();
+    return alpha;
+}
+
+
+
+int main(int argc, char** argv )
+{
+    string imagefile = "../Images/troll.png";
+    string bitmapfile = "../Images/trollTrimap.bmp";
+    Mat alpha = alphaEstimation(imagefile, bitmapfile);
     return 0;
 }
