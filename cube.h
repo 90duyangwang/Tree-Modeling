@@ -21,7 +21,7 @@ class cube {
     /* Distance of centre from a line(ray)
      */
 
-    
+
 };
 
 
