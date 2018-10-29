@@ -10,10 +10,13 @@
 class vec3d {
 
 public:
-    vector<float> arr;
-    vec3d(int N);
+    std::vector<float> arr;
+    int N=0;
+    vec3d(int N, float initval=0.0);
     void set(int x, int y, int z, float val);
-    void get(int x, int y, int z);
+    float get(int x, int y, int z);
+    void update(float val);
+
 };
 
 

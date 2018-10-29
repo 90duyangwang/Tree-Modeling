@@ -3,6 +3,8 @@
 
 CMakeFiles/ImageMatting.dir/main.cpp.o
  /Users/premsai/Desktop/ImageMatting/main.cpp
+ /Users/premsai/Desktop/ImageMatting/vec3d.h
+ /Users/premsai/Desktop/ImageMatting/voxel_reconstruction.cpp
  /usr/local/include/opencv4/opencv2/calib3d.hpp
  /usr/local/include/opencv4/opencv2/core.hpp
  /usr/local/include/opencv4/opencv2/core/affine.hpp

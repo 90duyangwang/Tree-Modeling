@@ -1,7 +1,8 @@
 #include <cstdio>
 #include <opencv2/opencv.hpp>
 #include <iostream>
-
+#include "vec3d.h"
+#include "voxel_reconstruction.h"
 
 using namespace cv;
 using namespace std;
@@ -52,11 +53,18 @@ Mat gradientY(Mat & mat, float spacing) {
 }
 
 Mat alphaEstimation(string &inputImage, string &bitmapfile) {
-    Mat image = imread("../Images/troll.png",0);
-    Mat trimap = imread("../Images/trollTrimap.bmp",0);
+    Mat image = imread(inputImage,0);
+    Mat trimap = imread(bitmapfile,0);
 
     int h = trimap.rows;
     int w = trimap.cols;
+
+
+    if(h==0 || w == 0 ){
+        cout << " Files not read properly"<<endl;
+        exit(0);
+    }
+
 
     Mat foreground = (trimap == 255);
     Mat background = (trimap == 0);
@@ -158,11 +166,36 @@ Mat alphaEstimation(string &inputImage, string &bitmapfile) {
 }
 
 
+vector<vector<float>> create_vec(Mat &alpha) {
+    vector<vector<float>> res;
+    vector<float> temp;
+    for(int i=0; i< alpha.rows ; i++){
+        for(int j=0; j<alpha.cols; j++){
+            temp.push_back(alpha.at<float>(i,j));
+        }
+        res.push_back(temp);
+    }
+    return res;
+}
+
+
 
 int main(int argc, char** argv )
 {
-    string imagefile = "../Images/troll.png";
-    string bitmapfile = "../Images/trollTrimap.bmp";
+    string imagefile = "./Images/troll.png";
+    string bitmapfile = "./Images/trollTrimap.bmp";
     Mat alpha = alphaEstimation(imagefile, bitmapfile);
+    vector<vector<float>> alpha_img = create_vec(alpha);
+    vec3d voxel_alpha = alpha_calculation(alpha.rows, alpha.cols, alpha_img);
+    cout << "Voxels generated" << endl;
+    for(int i=0; i<25; i++){
+        for(int j=0; j<25; j++){
+            for(int k=0; k<25; k++){
+                cout << voxel_alpha.get(i,j,k) << "  ";
+            }
+            cout << endl;
+        }
+        cout << " ------- " << endl;
+    }
     return 0;
 }

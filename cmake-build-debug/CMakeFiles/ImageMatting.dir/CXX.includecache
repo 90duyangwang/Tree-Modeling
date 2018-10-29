@@ -13,6 +13,22 @@ opencv2/opencv.hpp
 -
 iostream
 -
+voxel_reconstruction.cpp
+/Users/premsai/Desktop/ImageMatting/voxel_reconstruction.cpp
+vec3d.h
+/Users/premsai/Desktop/ImageMatting/vec3d.h
+
+/Users/premsai/Desktop/ImageMatting/vec3d.h
+vector
+-
+
+/Users/premsai/Desktop/ImageMatting/voxel_reconstruction.cpp
+vec3d.h
+/Users/premsai/Desktop/ImageMatting/vec3d.h
+vector
+-
+cmath
+-
 
 /usr/local/include/opencv4/opencv2/calib3d.hpp
 opencv2/core.hpp

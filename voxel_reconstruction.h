@@ -5,25 +5,23 @@
 #ifndef IMAGEMATTING_VOXEL_RECONSTRUCTION_H
 #define IMAGEMATTING_VOXEL_RECONSTRUCTION_H
 
-typedef float delta;
-typedef float weight;
-typedef float coeff;
-typedef float transparency;
-typedef vector<float> vec;
-typedef float intercept;
-typedef int dim;
+#include "vec3d.h"
+#include <vector>
 
+using namespace std;
 
-vector<vector<vector<int>>> create_voxel_grid();
+vector<int> list_of_cells(int h, int w, int N);
 
-void initialize_voxel_densities(delta di, weight w);
+void initialize_voxel_densities(int img_h, int img_w, int N, vec3d &grid, vector<vector<float>> &alpha);
 
-void list_of_cells();
+vector<float> project_q_onto_plane(vector<float> &q, float qp, int n);
 
-void project_q_onto_plane();
+bool convergence_condition(vec3d& del, vec3d& grid, float threshold, int N);
 
-void convergence_condition();
+float calculate_q(float alpha);
 
-void alpha_calculation();
+float calculate_t(float alpha);
+
+vec3d alpha_calculation(int img_h, int img_w, vector<vector<float>> &img_alpha);
 
 #endif //IMAGEMATTING_VOXEL_RECONSTRUCTION_H

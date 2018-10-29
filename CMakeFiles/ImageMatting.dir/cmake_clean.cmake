@@ -1,5 +1,7 @@
 file(REMOVE_RECURSE
   "CMakeFiles/ImageMatting.dir/main.cpp.o"
+  "CMakeFiles/ImageMatting.dir/vec3d.cpp.o"
+  "CMakeFiles/ImageMatting.dir/voxel_reconstruction.cpp.o"
   "ImageMatting.pdb"
   "ImageMatting"
 )
