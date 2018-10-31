@@ -54,12 +54,12 @@ void initialize_voxel_densities(int img_h, int img_w, int N, vec3d &grid, vector
     // TODO: Initialization with diifferent images has to be handled, the final value shoudl be minimum of the average opacities
 
     vector<int> cells;
-    cout << "# Rows: " << img_h << " # Cols: " << img_w << endl;
-    cout << "Initializing Voxels" << endl;
+//    cout << "# Rows: " << img_h << " # Cols: " << img_w << endl;
+//    cout << "Initializing Voxels" << endl;
     for(int i=0; i<img_h; i++){
-        cout << " Processing Row: # " << i <<endl;
+//        cout << " Processing Row: # " << i <<endl;
         for(int j=0; j<img_w; j++){
-            cout << "Processing Col: # "<< j << endl;
+//            cout << "Processing Col: # "<< j << endl;
             cells = list_of_cells(i, j, N);
             for(int k=0; k<N; k++) {
                 float prev =  grid.get(cells[0], cells[1], k);
@@ -67,7 +67,7 @@ void initialize_voxel_densities(int img_h, int img_w, int N, vec3d &grid, vector
             }
         }
     }
-    cout << "After First Loop" << endl;
+//    cout << "After First Loop" << endl;
     int avg_pixels = (img_h/N) * (img_w/N);
     for(int i=0; i<N; i++) {
         for(int j=0; j<N; j++){
@@ -140,11 +140,23 @@ float calculate_t(float alpha) {
     return 1-alpha;
 }
 
+void vec_print(vector<float> v){
+    cout << "Printing Vector: ";
+    for(auto &n : v){
+        cout << n <<" , ";
+    }
+    cout << endl;
+}
+
 vec3d alpha_calculation(int img_h, int img_w, vector<vector<float>> &img_alpha) {
 
     //TODO: Update the algorithm for multiple images
     //TODO: Update the Weight matrix for now we are considering equal weights to all cells wi = 1
     //TODO: determine the threshold to make the transparencies to 1
+    cout << "Alpha image: Rows: # " << img_alpha.size() << "  Cols: # " << img_alpha[0].size() << endl;
+//    for(auto &inner: img_alpha){
+//        vec_print(inner);
+//    }
 
     int N = 25;
     vec3d voxel(N); // voxels save the transparency value (ti s not alpha )
@@ -152,7 +164,8 @@ vec3d alpha_calculation(int img_h, int img_w, vector<vector<float>> &img_alpha) 
     vec3d del(N,0.0);
     initialize_voxel_densities(img_h, img_w, N, voxel, img_alpha);
     vector<float> q;
-    while(!convergence_condition(del, voxel, 0.4, N)) {
+    int conv = 0;
+    while(conv++ < 2) { //!convergence_condition(del, voxel, 0.4, N)) {
         del.update(0.0);
         float w = 0.0;
      //   for(auto &image: images){

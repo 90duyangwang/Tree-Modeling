@@ -161,6 +161,9 @@ Mat alphaEstimation(string &inputImage, string &bitmapfile) {
     Mat alpha = min(max(alphaNew,0),1);
     cout << "Completed Alpha estimate" << endl;
 
+    namedWindow("Image Alpha", WINDOW_AUTOSIZE);
+    imshow("Image Alpha", alpha);
+    waitKey(0);
     destroyAllWindows();
     return alpha;
 }
@@ -189,13 +192,16 @@ int main(int argc, char** argv )
     vec3d voxel_alpha = alpha_calculation(alpha.rows, alpha.cols, alpha_img);
     cout << "Voxels generated" << endl;
     for(int i=0; i<25; i++){
+        char tmp = 'a'+i;
+        string filename = "./Images/layer_" + tmp;
+        freopen(filename.c_str(), "w", stdout);
         for(int j=0; j<25; j++){
             for(int k=0; k<25; k++){
-                cout << voxel_alpha.get(i,j,k) << "  ";
+                cout << voxel_alpha.get(k,i,j) << " ";
             }
             cout << endl;
         }
-        cout << " ------- " << endl;
+        fclose(stdout);
     }
     return 0;
 }
