@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.10)
 project(ImageMatting)
 set(CMAKE_CXX_STANDARD 11)
-set(SOURCE_FILES main.cpp vec3d.cpp voxel_reconstruction.cpp vec3d.h voxel_reconstruction.h)
+set(SOURCE_FILES main.cpp vec3d.cpp voxel_reconstruction.cpp vec3d.h voxel_reconstruction.h globalmatting.cpp globalmatting.h guidedfilter.cpp guidedfilter.h PixelNode.cpp PixelNode.h PixelGraph.cpp PixelGraph.h)
 find_package( OpenCV REQUIRED )
 include_directories( ${OpenCV_INCLUDE_DIRS} )
 add_executable(ImageMatting ${SOURCE_FILES})

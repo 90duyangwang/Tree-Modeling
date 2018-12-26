@@ -68,7 +68,7 @@ void initialize_voxel_densities(int img_h, int img_w, int N, vec3d &grid, vector
         }
     }
 //    cout << "After First Loop" << endl;
-    int avg_pixels = (img_h/N) * (img_w/N);
+    float avg_pixels = (img_h/N) * (img_w/N) *1.0;
     for(int i=0; i<N; i++) {
         for(int j=0; j<N; j++){
             for(int k=0; k<N; k++){
@@ -163,9 +163,26 @@ vec3d alpha_calculation(int img_h, int img_w, vector<vector<float>> &img_alpha) 
     vec3d weights(N,1);
     vec3d del(N,0.0);
     initialize_voxel_densities(img_h, img_w, N, voxel, img_alpha);
+
+    cout << "initial voxel densities" << endl;
+    for(int i=0; i<25; i++){
+//        char tmp = 'a'+i;
+////        string filename = "./Images/layer_" + tmp;
+////        freopen(filename.c_str(), "w", stdout);
+        for(int j=0; j<25; j++){
+            for(int k=0; k<25; k++){
+                cout << voxel.get(j,k,i) << " ";
+            }
+            cout << endl;
+        }
+////        fclose(stdout);
+    }
+
+    cout << "initial voxel densities ended" << endl;
+
     vector<float> q;
     int conv = 0;
-    while(conv++ < 2) { //!convergence_condition(del, voxel, 0.4, N)) {
+    while(conv++ < 5) { //!convergence_condition(del, voxel, 0.4, N)) {
         del.update(0.0);
         float w = 0.0;
      //   for(auto &image: images){

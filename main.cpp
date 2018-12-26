@@ -3,6 +3,10 @@
 #include <iostream>
 #include "vec3d.h"
 #include "voxel_reconstruction.h"
+#include "globalmatting.h"
+#include "guidedfilter.h"
+#include "glm/vec3.hpp"
+#include "PixelGraph.h"
 
 using namespace cv;
 using namespace std;
@@ -172,36 +176,125 @@ Mat alphaEstimation(string &inputImage, string &bitmapfile) {
 vector<vector<float>> create_vec(Mat &alpha) {
     vector<vector<float>> res;
     vector<float> temp;
+    Mat alpha2;
+    alpha.convertTo(alpha2, CV_32FC1);
     for(int i=0; i< alpha.rows ; i++){
         for(int j=0; j<alpha.cols; j++){
-            temp.push_back(alpha.at<float>(i,j));
+            float temp1 = alpha2.at<float>(i,j);
+            temp.push_back(temp1/255.0);
         }
         res.push_back(temp);
+        temp.clear();
     }
     return res;
 }
 
+Mat create_Mat(vector<vector<float>> &alpha){
+    cv::Mat matAlpha(alpha.size(), alpha.at(0).size(), CV_32FC1);
+    for(int i=0; i<matAlpha.rows; ++i)
+        for(int j=0; j<matAlpha.cols; ++j)
+            matAlpha.at<float>(i, j) = alpha.at(i).at(j);
+
+    return matAlpha;
+}
 
 
 int main(int argc, char** argv )
 {
     string imagefile = "./Images/troll.png";
     string bitmapfile = "./Images/trollTrimap.bmp";
-    Mat alpha = alphaEstimation(imagefile, bitmapfile);
+    Mat image = imread(imagefile, 1);
+    Mat trimap = imread(bitmapfile,0);
+    expansionOfKnownRegions(image, trimap, 9);
+    Mat foreground, alpha;
+    globalMatting(image, trimap, foreground, alpha);
+
+    alpha = guidedFilter(image, alpha, 10, 1e-5);
+   for (int x = 0; x < trimap.cols; ++x)
+        for (int y = 0; y < trimap.rows; ++y)
+        {
+            if (trimap.at<uchar>(y, x) == 0)
+                alpha.at<uchar>(y, x) = 0;
+            else if (trimap.at<uchar>(y, x) == 255)
+                alpha.at<uchar>(y, x) = 255;
+        }
+    namedWindow("Image Alpha", WINDOW_AUTOSIZE);
+    imshow("Image Alpha", alpha);
+    waitKey(0);
+    destroyAllWindows();
+
+
+
+
+    cv::imwrite("GT04-alpha.png", alpha);
+
+//    Mat alpha = alphaEstimation(imagefile, bitmapfile);
     vector<vector<float>> alpha_img = create_vec(alpha);
+    std::cout << alpha;
+
+    int w = image.cols;
+    int h = image.rows;
+    PixelGraph pg((int)h/10.0, (int)w/10.0);
+    bool attractor = false;
+    int attx = -1, atty = -1;
+    for(int i=0,m=0; i<h ;i+=10,m++) {
+        for(int j=0,n=0; j<w; j+=10,n++) {
+            attractor = false;
+            attx = -1;
+            atty = -1;
+            for(int x=i; x<i+10; x++){
+                for(int y=j; y<j+10; y++){
+                    const cv::Vec3b &intensity = image.at<Vec3b>(x, y);
+                    uchar red = intensity.val[2];
+                    if(red == 255){
+                        attractor = true;
+                        attx = x;
+                        atty = y;
+                    }
+                }
+            }
+            PixelNode pnode(-1,-1);
+            if(attractor) {
+                pnode.setCoordinates(attx, atty);
+                pnode.setAttracPoint(true);
+            }else{
+                pnode.setCoordinates(i+5, j+5);
+                pnode.setDirecPoint(true);
+            }
+            pg.set(m, n, &pnode);
+        }
+    }
+
+
     vec3d voxel_alpha = alpha_calculation(alpha.rows, alpha.cols, alpha_img);
     cout << "Voxels generated" << endl;
-    for(int i=0; i<25; i++){
-        char tmp = 'a'+i;
-        string filename = "./Images/layer_" + tmp;
-        freopen(filename.c_str(), "w", stdout);
+    glm::vec3 vectemp(-1.0f,0.0f,0.0f);
+    vector<vector<float>> voxel_test;
+
+    for(int i=0; i<1; i++){
+//        char tmp = 'a'+i;
+////        string filename = "./Images/layer_" + tmp;
+////        freopen(filename.c_str(), "w", stdout);
         for(int j=0; j<25; j++){
+
+            vector<float> temp_test;
             for(int k=0; k<25; k++){
-                cout << voxel_alpha.get(k,i,j) << " ";
+                temp_test.push_back(voxel_alpha.get(j,k,i));
             }
-            cout << endl;
+            voxel_test.push_back(temp_test);
+            temp_test.clear();
         }
-        fclose(stdout);
+////        fclose(stdout);
     }
+    Mat m1 = create_Mat(voxel_test);
+    cv::imwrite("voxel_alpha.png", m1);
+
+
+
+
+
+
+
+
     return 0;
 }

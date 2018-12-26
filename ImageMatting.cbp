@@ -70,6 +70,30 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="/Users/premsai/Desktop/ImageMatting/PixelGraph.cpp">
+			<Option target="ImageMatting"/>
+		</Unit>
+		<Unit filename="/Users/premsai/Desktop/ImageMatting/PixelGraph.h">
+			<Option target="ImageMatting"/>
+		</Unit>
+		<Unit filename="/Users/premsai/Desktop/ImageMatting/PixelNode.cpp">
+			<Option target="ImageMatting"/>
+		</Unit>
+		<Unit filename="/Users/premsai/Desktop/ImageMatting/PixelNode.h">
+			<Option target="ImageMatting"/>
+		</Unit>
+		<Unit filename="/Users/premsai/Desktop/ImageMatting/globalmatting.cpp">
+			<Option target="ImageMatting"/>
+		</Unit>
+		<Unit filename="/Users/premsai/Desktop/ImageMatting/globalmatting.h">
+			<Option target="ImageMatting"/>
+		</Unit>
+		<Unit filename="/Users/premsai/Desktop/ImageMatting/guidedfilter.cpp">
+			<Option target="ImageMatting"/>
+		</Unit>
+		<Unit filename="/Users/premsai/Desktop/ImageMatting/guidedfilter.h">
+			<Option target="ImageMatting"/>
+		</Unit>
 		<Unit filename="/Users/premsai/Desktop/ImageMatting/main.cpp">
 			<Option target="ImageMatting"/>
 		</Unit>

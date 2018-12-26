@@ -129,11 +129,111 @@ CMakeFiles/ImageMatting.dir/voxel_reconstruction.cpp.o.provides: CMakeFiles/Imag
 CMakeFiles/ImageMatting.dir/voxel_reconstruction.cpp.o.provides.build: CMakeFiles/ImageMatting.dir/voxel_reconstruction.cpp.o
 
 
+CMakeFiles/ImageMatting.dir/globalmatting.cpp.o: CMakeFiles/ImageMatting.dir/flags.make
+CMakeFiles/ImageMatting.dir/globalmatting.cpp.o: globalmatting.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/premsai/Desktop/ImageMatting/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/ImageMatting.dir/globalmatting.cpp.o"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/ImageMatting.dir/globalmatting.cpp.o -c /Users/premsai/Desktop/ImageMatting/globalmatting.cpp
+
+CMakeFiles/ImageMatting.dir/globalmatting.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/ImageMatting.dir/globalmatting.cpp.i"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/premsai/Desktop/ImageMatting/globalmatting.cpp > CMakeFiles/ImageMatting.dir/globalmatting.cpp.i
+
+CMakeFiles/ImageMatting.dir/globalmatting.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/ImageMatting.dir/globalmatting.cpp.s"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/premsai/Desktop/ImageMatting/globalmatting.cpp -o CMakeFiles/ImageMatting.dir/globalmatting.cpp.s
+
+CMakeFiles/ImageMatting.dir/globalmatting.cpp.o.requires:
+
+.PHONY : CMakeFiles/ImageMatting.dir/globalmatting.cpp.o.requires
+
+CMakeFiles/ImageMatting.dir/globalmatting.cpp.o.provides: CMakeFiles/ImageMatting.dir/globalmatting.cpp.o.requires
+	$(MAKE) -f CMakeFiles/ImageMatting.dir/build.make CMakeFiles/ImageMatting.dir/globalmatting.cpp.o.provides.build
+.PHONY : CMakeFiles/ImageMatting.dir/globalmatting.cpp.o.provides
+
+CMakeFiles/ImageMatting.dir/globalmatting.cpp.o.provides.build: CMakeFiles/ImageMatting.dir/globalmatting.cpp.o
+
+
+CMakeFiles/ImageMatting.dir/guidedfilter.cpp.o: CMakeFiles/ImageMatting.dir/flags.make
+CMakeFiles/ImageMatting.dir/guidedfilter.cpp.o: guidedfilter.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/premsai/Desktop/ImageMatting/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/ImageMatting.dir/guidedfilter.cpp.o"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/ImageMatting.dir/guidedfilter.cpp.o -c /Users/premsai/Desktop/ImageMatting/guidedfilter.cpp
+
+CMakeFiles/ImageMatting.dir/guidedfilter.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/ImageMatting.dir/guidedfilter.cpp.i"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/premsai/Desktop/ImageMatting/guidedfilter.cpp > CMakeFiles/ImageMatting.dir/guidedfilter.cpp.i
+
+CMakeFiles/ImageMatting.dir/guidedfilter.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/ImageMatting.dir/guidedfilter.cpp.s"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/premsai/Desktop/ImageMatting/guidedfilter.cpp -o CMakeFiles/ImageMatting.dir/guidedfilter.cpp.s
+
+CMakeFiles/ImageMatting.dir/guidedfilter.cpp.o.requires:
+
+.PHONY : CMakeFiles/ImageMatting.dir/guidedfilter.cpp.o.requires
+
+CMakeFiles/ImageMatting.dir/guidedfilter.cpp.o.provides: CMakeFiles/ImageMatting.dir/guidedfilter.cpp.o.requires
+	$(MAKE) -f CMakeFiles/ImageMatting.dir/build.make CMakeFiles/ImageMatting.dir/guidedfilter.cpp.o.provides.build
+.PHONY : CMakeFiles/ImageMatting.dir/guidedfilter.cpp.o.provides
+
+CMakeFiles/ImageMatting.dir/guidedfilter.cpp.o.provides.build: CMakeFiles/ImageMatting.dir/guidedfilter.cpp.o
+
+
+CMakeFiles/ImageMatting.dir/PixelNode.cpp.o: CMakeFiles/ImageMatting.dir/flags.make
+CMakeFiles/ImageMatting.dir/PixelNode.cpp.o: PixelNode.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/premsai/Desktop/ImageMatting/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/ImageMatting.dir/PixelNode.cpp.o"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/ImageMatting.dir/PixelNode.cpp.o -c /Users/premsai/Desktop/ImageMatting/PixelNode.cpp
+
+CMakeFiles/ImageMatting.dir/PixelNode.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/ImageMatting.dir/PixelNode.cpp.i"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/premsai/Desktop/ImageMatting/PixelNode.cpp > CMakeFiles/ImageMatting.dir/PixelNode.cpp.i
+
+CMakeFiles/ImageMatting.dir/PixelNode.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/ImageMatting.dir/PixelNode.cpp.s"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/premsai/Desktop/ImageMatting/PixelNode.cpp -o CMakeFiles/ImageMatting.dir/PixelNode.cpp.s
+
+CMakeFiles/ImageMatting.dir/PixelNode.cpp.o.requires:
+
+.PHONY : CMakeFiles/ImageMatting.dir/PixelNode.cpp.o.requires
+
+CMakeFiles/ImageMatting.dir/PixelNode.cpp.o.provides: CMakeFiles/ImageMatting.dir/PixelNode.cpp.o.requires
+	$(MAKE) -f CMakeFiles/ImageMatting.dir/build.make CMakeFiles/ImageMatting.dir/PixelNode.cpp.o.provides.build
+.PHONY : CMakeFiles/ImageMatting.dir/PixelNode.cpp.o.provides
+
+CMakeFiles/ImageMatting.dir/PixelNode.cpp.o.provides.build: CMakeFiles/ImageMatting.dir/PixelNode.cpp.o
+
+
+CMakeFiles/ImageMatting.dir/PixelGraph.cpp.o: CMakeFiles/ImageMatting.dir/flags.make
+CMakeFiles/ImageMatting.dir/PixelGraph.cpp.o: PixelGraph.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/premsai/Desktop/ImageMatting/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/ImageMatting.dir/PixelGraph.cpp.o"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/ImageMatting.dir/PixelGraph.cpp.o -c /Users/premsai/Desktop/ImageMatting/PixelGraph.cpp
+
+CMakeFiles/ImageMatting.dir/PixelGraph.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/ImageMatting.dir/PixelGraph.cpp.i"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/premsai/Desktop/ImageMatting/PixelGraph.cpp > CMakeFiles/ImageMatting.dir/PixelGraph.cpp.i
+
+CMakeFiles/ImageMatting.dir/PixelGraph.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/ImageMatting.dir/PixelGraph.cpp.s"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/premsai/Desktop/ImageMatting/PixelGraph.cpp -o CMakeFiles/ImageMatting.dir/PixelGraph.cpp.s
+
+CMakeFiles/ImageMatting.dir/PixelGraph.cpp.o.requires:
+
+.PHONY : CMakeFiles/ImageMatting.dir/PixelGraph.cpp.o.requires
+
+CMakeFiles/ImageMatting.dir/PixelGraph.cpp.o.provides: CMakeFiles/ImageMatting.dir/PixelGraph.cpp.o.requires
+	$(MAKE) -f CMakeFiles/ImageMatting.dir/build.make CMakeFiles/ImageMatting.dir/PixelGraph.cpp.o.provides.build
+.PHONY : CMakeFiles/ImageMatting.dir/PixelGraph.cpp.o.provides
+
+CMakeFiles/ImageMatting.dir/PixelGraph.cpp.o.provides.build: CMakeFiles/ImageMatting.dir/PixelGraph.cpp.o
+
+
 # Object files for target ImageMatting
 ImageMatting_OBJECTS = \
 "CMakeFiles/ImageMatting.dir/main.cpp.o" \
 "CMakeFiles/ImageMatting.dir/vec3d.cpp.o" \
-"CMakeFiles/ImageMatting.dir/voxel_reconstruction.cpp.o"
+"CMakeFiles/ImageMatting.dir/voxel_reconstruction.cpp.o" \
+"CMakeFiles/ImageMatting.dir/globalmatting.cpp.o" \
+"CMakeFiles/ImageMatting.dir/guidedfilter.cpp.o" \
+"CMakeFiles/ImageMatting.dir/PixelNode.cpp.o" \
+"CMakeFiles/ImageMatting.dir/PixelGraph.cpp.o"
 
 # External object files for target ImageMatting
 ImageMatting_EXTERNAL_OBJECTS =
@@ -141,6 +241,10 @@ ImageMatting_EXTERNAL_OBJECTS =
 ImageMatting: CMakeFiles/ImageMatting.dir/main.cpp.o
 ImageMatting: CMakeFiles/ImageMatting.dir/vec3d.cpp.o
 ImageMatting: CMakeFiles/ImageMatting.dir/voxel_reconstruction.cpp.o
+ImageMatting: CMakeFiles/ImageMatting.dir/globalmatting.cpp.o
+ImageMatting: CMakeFiles/ImageMatting.dir/guidedfilter.cpp.o
+ImageMatting: CMakeFiles/ImageMatting.dir/PixelNode.cpp.o
+ImageMatting: CMakeFiles/ImageMatting.dir/PixelGraph.cpp.o
 ImageMatting: CMakeFiles/ImageMatting.dir/build.make
 ImageMatting: /usr/local/lib/libopencv_dnn.4.0.0.dylib
 ImageMatting: /usr/local/lib/libopencv_gapi.4.0.0.dylib
@@ -161,7 +265,7 @@ ImageMatting: /usr/local/lib/libopencv_imgcodecs.4.0.0.dylib
 ImageMatting: /usr/local/lib/libopencv_imgproc.4.0.0.dylib
 ImageMatting: /usr/local/lib/libopencv_core.4.0.0.dylib
 ImageMatting: CMakeFiles/ImageMatting.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/Users/premsai/Desktop/ImageMatting/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking CXX executable ImageMatting"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/Users/premsai/Desktop/ImageMatting/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Linking CXX executable ImageMatting"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/ImageMatting.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -172,6 +276,10 @@ CMakeFiles/ImageMatting.dir/build: ImageMatting
 CMakeFiles/ImageMatting.dir/requires: CMakeFiles/ImageMatting.dir/main.cpp.o.requires
 CMakeFiles/ImageMatting.dir/requires: CMakeFiles/ImageMatting.dir/vec3d.cpp.o.requires
 CMakeFiles/ImageMatting.dir/requires: CMakeFiles/ImageMatting.dir/voxel_reconstruction.cpp.o.requires
+CMakeFiles/ImageMatting.dir/requires: CMakeFiles/ImageMatting.dir/globalmatting.cpp.o.requires
+CMakeFiles/ImageMatting.dir/requires: CMakeFiles/ImageMatting.dir/guidedfilter.cpp.o.requires
+CMakeFiles/ImageMatting.dir/requires: CMakeFiles/ImageMatting.dir/PixelNode.cpp.o.requires
+CMakeFiles/ImageMatting.dir/requires: CMakeFiles/ImageMatting.dir/PixelGraph.cpp.o.requires
 
 .PHONY : CMakeFiles/ImageMatting.dir/requires
 

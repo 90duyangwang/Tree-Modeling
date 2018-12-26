@@ -69,8 +69,8 @@ rebuild_cache/fast: rebuild_cache
 
 # Special rule for the target edit_cache
 edit_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake cache editor..."
-	/usr/local/bin/ccmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
+	/Applications/CLion.app/Contents/bin/cmake/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
 .PHONY : edit_cache
 
 # Special rule for the target edit_cache
@@ -122,6 +122,114 @@ ImageMatting: cmake_check_build_system
 ImageMatting/fast:
 	$(MAKE) -f CMakeFiles/ImageMatting.dir/build.make CMakeFiles/ImageMatting.dir/build
 .PHONY : ImageMatting/fast
+
+PixelGraph.o: PixelGraph.cpp.o
+
+.PHONY : PixelGraph.o
+
+# target to build an object file
+PixelGraph.cpp.o:
+	$(MAKE) -f CMakeFiles/ImageMatting.dir/build.make CMakeFiles/ImageMatting.dir/PixelGraph.cpp.o
+.PHONY : PixelGraph.cpp.o
+
+PixelGraph.i: PixelGraph.cpp.i
+
+.PHONY : PixelGraph.i
+
+# target to preprocess a source file
+PixelGraph.cpp.i:
+	$(MAKE) -f CMakeFiles/ImageMatting.dir/build.make CMakeFiles/ImageMatting.dir/PixelGraph.cpp.i
+.PHONY : PixelGraph.cpp.i
+
+PixelGraph.s: PixelGraph.cpp.s
+
+.PHONY : PixelGraph.s
+
+# target to generate assembly for a file
+PixelGraph.cpp.s:
+	$(MAKE) -f CMakeFiles/ImageMatting.dir/build.make CMakeFiles/ImageMatting.dir/PixelGraph.cpp.s
+.PHONY : PixelGraph.cpp.s
+
+PixelNode.o: PixelNode.cpp.o
+
+.PHONY : PixelNode.o
+
+# target to build an object file
+PixelNode.cpp.o:
+	$(MAKE) -f CMakeFiles/ImageMatting.dir/build.make CMakeFiles/ImageMatting.dir/PixelNode.cpp.o
+.PHONY : PixelNode.cpp.o
+
+PixelNode.i: PixelNode.cpp.i
+
+.PHONY : PixelNode.i
+
+# target to preprocess a source file
+PixelNode.cpp.i:
+	$(MAKE) -f CMakeFiles/ImageMatting.dir/build.make CMakeFiles/ImageMatting.dir/PixelNode.cpp.i
+.PHONY : PixelNode.cpp.i
+
+PixelNode.s: PixelNode.cpp.s
+
+.PHONY : PixelNode.s
+
+# target to generate assembly for a file
+PixelNode.cpp.s:
+	$(MAKE) -f CMakeFiles/ImageMatting.dir/build.make CMakeFiles/ImageMatting.dir/PixelNode.cpp.s
+.PHONY : PixelNode.cpp.s
+
+globalmatting.o: globalmatting.cpp.o
+
+.PHONY : globalmatting.o
+
+# target to build an object file
+globalmatting.cpp.o:
+	$(MAKE) -f CMakeFiles/ImageMatting.dir/build.make CMakeFiles/ImageMatting.dir/globalmatting.cpp.o
+.PHONY : globalmatting.cpp.o
+
+globalmatting.i: globalmatting.cpp.i
+
+.PHONY : globalmatting.i
+
+# target to preprocess a source file
+globalmatting.cpp.i:
+	$(MAKE) -f CMakeFiles/ImageMatting.dir/build.make CMakeFiles/ImageMatting.dir/globalmatting.cpp.i
+.PHONY : globalmatting.cpp.i
+
+globalmatting.s: globalmatting.cpp.s
+
+.PHONY : globalmatting.s
+
+# target to generate assembly for a file
+globalmatting.cpp.s:
+	$(MAKE) -f CMakeFiles/ImageMatting.dir/build.make CMakeFiles/ImageMatting.dir/globalmatting.cpp.s
+.PHONY : globalmatting.cpp.s
+
+guidedfilter.o: guidedfilter.cpp.o
+
+.PHONY : guidedfilter.o
+
+# target to build an object file
+guidedfilter.cpp.o:
+	$(MAKE) -f CMakeFiles/ImageMatting.dir/build.make CMakeFiles/ImageMatting.dir/guidedfilter.cpp.o
+.PHONY : guidedfilter.cpp.o
+
+guidedfilter.i: guidedfilter.cpp.i
+
+.PHONY : guidedfilter.i
+
+# target to preprocess a source file
+guidedfilter.cpp.i:
+	$(MAKE) -f CMakeFiles/ImageMatting.dir/build.make CMakeFiles/ImageMatting.dir/guidedfilter.cpp.i
+.PHONY : guidedfilter.cpp.i
+
+guidedfilter.s: guidedfilter.cpp.s
+
+.PHONY : guidedfilter.s
+
+# target to generate assembly for a file
+guidedfilter.cpp.s:
+	$(MAKE) -f CMakeFiles/ImageMatting.dir/build.make CMakeFiles/ImageMatting.dir/guidedfilter.cpp.s
+.PHONY : guidedfilter.cpp.s
 
 main.o: main.cpp.o
 
@@ -213,6 +321,18 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
 	@echo "... ImageMatting"
+	@echo "... PixelGraph.o"
+	@echo "... PixelGraph.i"
+	@echo "... PixelGraph.s"
+	@echo "... PixelNode.o"
+	@echo "... PixelNode.i"
+	@echo "... PixelNode.s"
+	@echo "... globalmatting.o"
+	@echo "... globalmatting.i"
+	@echo "... globalmatting.s"
+	@echo "... guidedfilter.o"
+	@echo "... guidedfilter.i"
+	@echo "... guidedfilter.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
